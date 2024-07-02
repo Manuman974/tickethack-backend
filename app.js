@@ -3,8 +3,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+require('./models/connection');
+
 var indexRouter = require('./routes/index');
-require('./models/connection')
 
 var app = express();
 
@@ -18,5 +19,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+
 
 module.exports = app;

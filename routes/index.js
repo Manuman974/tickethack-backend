@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const Trip = require('../models/trips')
 const Cart = require('../models/carts')
+const Booking = require('../models/bookings')
 
 // route pour recuperer tous les trajets
 router.get('/trips', (req, res) => {
@@ -42,6 +43,40 @@ router.post('/trips', (req, res) => {
 });
 
 // Route pour ajouter un trajet au panier
+router.post('/carts', (req, res) => {
+  const departure = req.body.departure;
+  const arrival = req.body.arrival;
+  const date = req.body.date;
+  const price = req.body.price;
+// Cart = modele
+  const newCart = new Cart({
+    departure: departure,
+    arrival: arrival,
+    data: date,
+    price: price,
+  })
+  newCart.save().then(() => {
+      res.json( { result: true })
+  })
+});
+
+//route pour afficher tous les trajets ajoutés au panier
+router.get('/carts', (req, res) => {
+  Cart.find().then(data => {
+    res.json({ allCartItem: data });
+    console.log(data)
+  });
+});
+
+//route pour supprimer le trajets du panier
+router.delete('/carts', (req, res) => {
+  Cart.deleteOne().then(data => {
+    res.json({ result: true });
+  })
+});
+
+//route pour affiche tous les trajets payés
+
 
 
 
